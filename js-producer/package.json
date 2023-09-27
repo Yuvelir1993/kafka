@@ -1,0 +1,18 @@
+{
+  "name": "js-producer",
+  "version": "1.0.0",
+  "description": "Js Kafka producer.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "kafka"
+  ],
+  "author": "Pavlo Lozovikov",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "kafkajs": "^2.2.4"
+  }
+}

@@ -9,3 +9,8 @@ Learning Kafka and related to it stuff.
 
 # Dev
 Any environment variable beginning with **KAFKA_CFG_** will be mapped to its corresponding Apache Kafka key. For example, use **KAFKA_CFG_BACKGROUND_THREADS** in order to set **background.threads** or **KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE** in order to configure **auto.create.topics.enable**.
+
+## Get ETH 0 IP
+```bash
+ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1
+```
