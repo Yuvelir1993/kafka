@@ -14,3 +14,19 @@ Any environment variable beginning with **KAFKA_CFG_** will be mapped to its cor
 ```bash
 ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1
 ```
+
+## Run docker services
+```bash
+docker compose up --build
+```
+
+## Kafka
+All kafka '*.sh' scripts are palced in /opt/bitnami/kafka/bin/
+### Get topics list
+```bash
+docker exec -it kafka /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server=localhost:9092 --list
+```
+### Get topic details
+```bash
+docker exec -it kafka /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server=localhost:9092 --describe --topic test-topic
+```

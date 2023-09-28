@@ -20,6 +20,27 @@ services:
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-topics.sh --bootstrap-server kafka:9092 --topic hc --create --if-not-exists && kafka-topics.sh --bootstrap-server kafka:9092 --topic hc --describe"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  producer:
+    build:
+      context: ./js-producer
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    depends_on:
+      kafka:
+        condition: service_healthy
+  consumer:
+    build:
+      context: ./js-consumer
+      dockerfile: Dockerfile
+    depends_on:
+      kafka:
+        condition: service_healthy
 
 volumes:
   kafka_data:
