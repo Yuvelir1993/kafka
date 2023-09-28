@@ -1,23 +1,21 @@
 const express = require("express");
+const HOST = '0.0.0.0';
 const PORT = parseInt(process.env.PORT || "8090");
 const app = express();
+app.use(express.json());
 const { Kafka } = require('kafkajs')
 const kafka = new Kafka({
     clientId: 'js-producer',
-    brokers: ['172.29.17.18:9092']
-});
-const producer = kafka.producer();
-
-app.post('/', (req, res) => {
-    res.send('POST request to homepage')
+    brokers: ['kafka:9092']
 });
 
 app.post("/postMessage", async (req, res) => {
-    console.log("Posting message to Kafka.");
-    var message = req.message;
+    console.log(req.body);
+    var message = req.body.message;
+    console.log(`Posting '${message}' message to Kafka.`);
     const producer = kafka.producer()
 
-    await producer.connect()
+    await producer.connect();
     await producer.send({
         topic: 'test-topic',
         messages: [
@@ -25,13 +23,10 @@ app.post("/postMessage", async (req, res) => {
         ],
     })
 
-    await producer.disconnect()
-});
-
-app.get("/", async (req, res) => {
-    res.send("Hello");
+    await producer.disconnect();
+    res.send(200, { response: `Posted '${message}' message to Kafka's 'test-topic' topic.` });
 });
 
 app.listen(PORT, () => {
-    console.log(`Listening for requests on http://localhost:${PORT}`);
+    console.log(`Listening for requests on http://${HOST}:${PORT}`);
 });
