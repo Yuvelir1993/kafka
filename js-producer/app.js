@@ -9,23 +9,34 @@ const kafka = new Kafka({
     brokers: ['kafka:9092']
 });
 
-app.post("/postMessage", async (req, res) => {
-    console.log(req.body);
-    var message = req.body.message;
-    console.log(`Posting '${message}' message to Kafka.`);
-    const producer = kafka.producer()
-
-    await producer.connect();
-    await producer.send({
-        topic: 'test-topic',
-        messages: [
-            { value: message },
-        ],
-    })
-
-    await producer.disconnect();
-    res.send(200, { response: `Posted '${message}' message to Kafka's 'test-topic' topic.` });
+/**
+ * Post message to topic.
+ */
+app.post('/post-message', (req, res) => {
+    const message = req.body.message;
+    sendMessageToKafka(message)
+        .then((response) => {
+            res.status(200).json({ response });
+        })
+        .catch((error) => {
+            res.status(500).json({ error: `Failed to post message to Kafka: ${error}` });
+        });
 });
+
+const sendMessageToKafka = (message) => {
+    const producer = kafka.producer();
+    const topic = 'test-topic';
+    console.log(`Posting '${message}' message to Kafka's '${topic}' topic.`);
+
+    return producer.connect()
+        .then(() => producer.send({
+            topic: topic,
+            messages: [{ value: message }],
+        }))
+        .then(() => producer.disconnect())
+        .then(() => `Posted '${message}' message to Kafka's '${topic}' topic.`)
+        .catch((error) => `Error posting message to Kafka: ${error.message}`);
+};
 
 app.listen(PORT, () => {
     console.log(`Listening for requests on http://${HOST}:${PORT}`);
