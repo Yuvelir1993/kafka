@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Set the passphrase
-passphrase="Password123++"
+passphrase="PasswordSecretPassphrase123++"
 
 rm -rf .certs
 mkdir .certs

@@ -24,10 +24,10 @@ services:
       # Security
       - KAFKA_SECURITY_PROTOCOL=SSL
       - KAFKA_SSL_KEYSTORE_LOCATION=/certs/kafka.keystore.jks
-      - KAFKA_SSL_KEYSTORE_PASSWORD=Password123++
-      - KAFKA_SSL_KEY_PASSWORD=Password123++
+      - KAFKA_SSL_KEYSTORE_PASSWORD=PasswordSecretPassphrase123++
+      - KAFKA_SSL_KEY_PASSWORD=PasswordSecretPassphrase123++
       - KAFKA_SSL_TRUSTSTORE_LOCATION=/certs/kafka.truststore.jks
-      - KAFKA_SSL_TRUSTSTORE_PASSWORD=Password123++
+      - KAFKA_SSL_TRUSTSTORE_PASSWORD=PasswordSecretPassphrase123++
     healthcheck:
       test: ["CMD-SHELL", "kafka-topics.sh --bootstrap-server kafka:9092 --topic hc --create --if-not-exists && kafka-topics.sh --bootstrap-server kafka:9092 --topic hc --describe"]
       interval: 10s
