@@ -9,7 +9,7 @@ services:
       - "9092:9092"
     volumes:
       - "kafka_data:/bitnami"
-      - "./certs:/certs"
+      - "./.certs:/certs"
     environment:
       # KRaft settings
       - KAFKA_CFG_NODE_ID=0
@@ -38,7 +38,7 @@ services:
       context: ./js-producer
       dockerfile: Dockerfile
     volumes:
-      - "./certs:/certs"
+      - "./.certs:/certs"
     ports:
       - "8090:8090"
     depends_on:
@@ -49,7 +49,7 @@ services:
       context: ./js-consumer
       dockerfile: Dockerfile
     volumes:
-      - "./certs:/certs"
+      - "./.certs:/certs"
     depends_on:
       kafka:
         condition: service_healthy
