@@ -9,6 +9,7 @@ services:
       - "9092:9092"
     volumes:
       - "kafka_data:/bitnami"
+      - "./certs:/certs"
     environment:
       # KRaft settings
       - KAFKA_CFG_NODE_ID=0
@@ -20,6 +21,13 @@ services:
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      # Security
+      - KAFKA_SECURITY_PROTOCOL=SSL
+      - KAFKA_SSL_KEYSTORE_LOCATION=/certs/kafka.keystore.jks
+      - KAFKA_SSL_KEYSTORE_PASSWORD=Password123++
+      - KAFKA_SSL_KEY_PASSWORD=Password123++
+      - KAFKA_SSL_TRUSTSTORE_LOCATION=/certs/kafka.truststore.jks
+      - KAFKA_SSL_TRUSTSTORE_PASSWORD=Password123++
     healthcheck:
       test: ["CMD-SHELL", "kafka-topics.sh --bootstrap-server kafka:9092 --topic hc --create --if-not-exists && kafka-topics.sh --bootstrap-server kafka:9092 --topic hc --describe"]
       interval: 10s
@@ -29,6 +37,8 @@ services:
     build:
       context: ./js-producer
       dockerfile: Dockerfile
+    volumes:
+      - "./certs:/certs"
     ports:
       - "8090:8090"
     depends_on:
@@ -38,6 +48,8 @@ services:
     build:
       context: ./js-consumer
       dockerfile: Dockerfile
+    volumes:
+      - "./certs:/certs"
     depends_on:
       kafka:
         condition: service_healthy

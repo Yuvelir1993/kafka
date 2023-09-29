@@ -1,7 +1,7 @@
 # Dev
-Start the app.
+## Generate certificates
 ```bash
-node app
+sh generate-certs-consumer.sh
 ```
 
 ## Build docker image

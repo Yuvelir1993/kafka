@@ -15,6 +15,15 @@ Any environment variable beginning with **KAFKA_CFG_** will be mapped to its cor
 ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1
 ```
 
+## Generate certificates in JKS format
+```bash
+# Execute if Java is not installed
+sudo apt install openjdk-17-jre-headless
+
+# Generate certificates
+sh generate-certs-kafka.sh
+```
+
 ## Run docker services
 ```bash
 docker compose up --build
