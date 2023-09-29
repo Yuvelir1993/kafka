@@ -1,9 +1,4 @@
 # Dev
-## Generate certificates
-```bash
-sh generate-certs-producer.sh
-```
-
 ## Build docker image
 ```bash
 docker build . -t plozovik/js-producer

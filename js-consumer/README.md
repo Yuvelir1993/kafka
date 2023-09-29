@@ -1,9 +1,4 @@
 # Dev
-## Generate certificates
-```bash
-sh generate-certs-consumer.sh
-```
-
 ## Build docker image
 ```bash
 docker build . -t plozovik/js-consumer
