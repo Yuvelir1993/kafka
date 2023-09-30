@@ -1,4 +1,5 @@
 const express = require("express");
+const fs = require('fs');
 const HOST = '0.0.0.0';
 const PORT = parseInt(process.env.PORT || "8090");
 const app = express();
@@ -6,7 +7,15 @@ app.use(express.json());
 const { Kafka } = require('kafkajs')
 const kafka = new Kafka({
     clientId: 'js-producer',
-    brokers: ['kafka:9092']
+    brokers: ['kafka:9092'],
+    ssl: {
+        // requestCert: true,
+        // rejectUnauthorized: true,
+        rejectUnauthorized: false,
+        ca: [fs.readFileSync('/certs/ca.crt', 'utf-8')],
+        key: fs.readFileSync('/certs/client-producer-key.pem', 'utf-8'),
+        cert: fs.readFileSync('/certs/client-producer.crt', 'utf-8'),
+    }
 });
 
 /**

@@ -1,14 +1,15 @@
 const { Kafka } = require('kafkajs')
+const fs = require('fs');
 const kafka = new Kafka({
-    clientId: 'js-producer',
-    brokers: ['kafka:9092'],
+    clientId: 'js-consumer',
+    brokers: ['kafka:9091'],
     ssl: {
         // requestCert: true,
         // rejectUnauthorized: true,
         rejectUnauthorized: false,
         ca: [fs.readFileSync('/certs/ca.crt', 'utf-8')],
-        key: fs.readFileSync('/certs/client-producer-key.pem', 'utf-8'),
-        cert: fs.readFileSync('/certs/client-producer.crt', 'utf-8'),
+        key: fs.readFileSync('/certs/client-consumer-key.pem', 'utf-8'),
+        cert: fs.readFileSync('/certs/client-consumer.crt', 'utf-8'),
     }
 });
 
