@@ -8,6 +8,11 @@ Learning Kafka and related to it stuff.
 [Apache Kafka packaged by Bitnami (Dockerhub)](https://hub.docker.com/r/bitnami/kafka)
 [Apache Kafka broker config](https://docs.confluent.io/platform/current/installation/configuration/broker-configs.html)
 
+### Security
+[Simple guide to enable SASL authentication between kafka broker and client](https://github.com/wurstmeister/kafka-docker/issues/532)
+[production example from kafkajs](https://github.com/tulios/kafkajs/tree/master)
+[bitnami gti issue with kafka configs examples](https://github.com/bitnami/containers/issues/41415)
+
 ### UI projects
 [provectus](https://docs.kafka-ui.provectus.io)
 [confluent control center](https://hub.docker.com/r/confluentinc/cp-enterprise-control-center)
