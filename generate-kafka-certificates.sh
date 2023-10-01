@@ -6,7 +6,7 @@ generate_kafka_certificates() {
 
     # Root CA
     echo "Creating CA certificate and key"
-    openssl req -new -x509 -keyout .certs/ca.key -out .certs/ca.crt -days 365 -subj "/CN=Sample CA/OU=US/O=US/ST=US/C=US" -passout pass:"${passphrase}"
+    openssl req -new -x509 -keyout .certs/ca.key -out .certs/ca.crt -days 365 -subj "/CN=kafka CA/OU=US/O=US/ST=US/C=US" -passout pass:"${passphrase}"
 
     # Create Truststore
     keytool -keystore .certs/kafka.truststore.jks -alias CARoot -import -file .certs/ca.crt -storepass "${passphrase}" -keypass "${passphrase}" -noprompt
