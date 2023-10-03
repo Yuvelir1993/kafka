@@ -11,42 +11,33 @@ services:
       - "9092:9092"
     volumes:
       - "kafka_data:/bitnami"
-      - "./.certs:/bitnami/kafka/config/certs/"
+      # - "./.certs:/bitnami/kafka/config/certs/"
       - "./kafka/kafka_jaas.conf:/opt/bitnami/kafka/config/kafka_jaas.conf"
     environment:
-      # - KAFKA_ENABLE_KRAFT=yes
-      # - KAFKA_CFG_PROCESS_ROLES=broker,controller
-      # - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
-      # - KAFKA_CFG_LISTENERS=INTERNAL://0.0.0.0:9092,OUTSIDE://0.0.0.0:9094,CONTROLLER://:9093
-      # - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,OUTSIDE:SASL_PLAINTEXT
-      # - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka:9092,OUTSIDE://${ETH0_IP}:9094
-      # - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
-      # - KAFKA_CFG_BROKER_ID=1
-      # - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@127.0.0.1:9093
-      # - KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR=1
-      # - ALLOW_PLAINTEXT_LISTENER=yes
-      # - KAFKA_HEAP_OPTS=-Xmx2g -Xms1g
-      # KRaft settings
+      - KAFKA_ENABLE_KRAFT=yes
+      - KAFKA_CFG_LISTENERS=INTERNAL://0.0.0.0:9092,OUTSIDE://0.0.0.0:9094,CONTROLLER://:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,OUTSIDE:SASL_PLAINTEXT
+      - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka:9092,OUTSIDE://${ETH0_IP}:9094
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
+      - KAFKA_CFG_BROKER_ID=0
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@127.0.0.1:9093
+      - KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_HEAP_OPTS=-Xmx2g -Xms1g
       - KAFKA_CFG_NODE_ID=0
       - KAFKA_CFG_PROCESS_ROLES=controller,broker
-      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
-      # Listeners
-      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
-      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
       - KAFKA_CFG_SOCKET_REQUEST_MAX_BYTES=869295617
       # Security
-      - KAFKA_SECURITY_PROTOCOL=SSL
-      - KAFKA_SSL_KEYSTORE_LOCATION=/bitnami/kafka/config/certs/kafka.keystore.jks
-      - KAFKA_SSL_KEYSTORE_TYPE=JKS
-      - KAFKA_SSL_KEYSTORE_PASSWORD=PasswordSecretPassphrase123++
-      - KAFKA_SSL_KEY_PASSWORD=PasswordSecretPassphrase123++
-      - KAFKA_SSL_TRUSTSTORE_LOCATION=/bitnami/kafka/config/certs/kafka.truststore.jks
-      - KAFKA_SSL_TRUSTSTORE_TYPE=JKS
-      - KAFKA_SSL_TRUSTSTORE_PASSWORD=PasswordSecretPassphrase123++
-      - KAFKA_SSL_TRUSTSTORE_CERTIFICATES=/bitnami/kafka/config/certs/client-producer-key.pem,certs/client-consumer-key.pem
+      # - KAFKA_SECURITY_PROTOCOL=SSL
+      # - KAFKA_SSL_KEYSTORE_LOCATION=/bitnami/kafka/config/certs/kafka.keystore.jks
+      # - KAFKA_SSL_KEYSTORE_TYPE=JKS
+      # - KAFKA_SSL_KEYSTORE_PASSWORD=PasswordSecretPassphrase123++
+      # - KAFKA_SSL_KEY_PASSWORD=PasswordSecretPassphrase123++
+      # - KAFKA_SSL_TRUSTSTORE_LOCATION=/bitnami/kafka/config/certs/kafka.truststore.jks
+      # - KAFKA_SSL_TRUSTSTORE_TYPE=JKS
+      # - KAFKA_SSL_TRUSTSTORE_PASSWORD=PasswordSecretPassphrase123++
+      # - KAFKA_SSL_TRUSTSTORE_CERTIFICATES=/bitnami/kafka/config/certs/client-producer-key.pem,certs/client-consumer-key.pem
     healthcheck:
       test: ["CMD-SHELL", "kafka-topics.sh --bootstrap-server kafka:9092 --topic hc --create --if-not-exists && kafka-topics.sh --bootstrap-server kafka:9092 --topic hc --describe"]
       interval: 10s
@@ -63,26 +54,6 @@ services:
   #     CONTROL_CENTER_BOOTSTRAP_SERVERS: 'kafka:9092'
   #     CONTROL_CENTER_REPLICATION_FACTOR: 1
   #     PORT: 9021
-  producer:
-    build:
-      context: ./js-producer
-      dockerfile: Dockerfile
-    volumes:
-      - "./.certs:/certs"
-    ports:
-      - "8090:8090"
-    depends_on:
-      kafka:
-        condition: service_healthy
-  consumer:
-    build:
-      context: ./js-consumer
-      dockerfile: Dockerfile
-    volumes:
-      - "./.certs:/certs"
-    depends_on:
-      kafka:
-        condition: service_healthy
 
 volumes:
   kafka_data:

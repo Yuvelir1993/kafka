@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  producer:
+    build:
+      context: ./js-producer
+      dockerfile: Dockerfile
+    volumes:
+      - "./.certs:/certs"
+    ports:
+      - "8090:8090"
+  consumer:
+    build:
+      context: ./js-consumer
+      dockerfile: Dockerfile
+    volumes:
+      - "./.certs:/certs"
