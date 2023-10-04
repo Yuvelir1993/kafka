@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# ca.crt
+# ca.key
+# kafka.crt - generated on top of ca.crt, ca.key
+# kafka.key
+
 # Function to generate Kafka certificates
 generate_kafka_certificates() {
     local passphrase="$1"
