@@ -2,10 +2,15 @@ version: "3.8"
 
 services:
   web:
+    container_name: web
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        ETH0_IP: ${ETH0_IP}
     ports:
       - "3000:3000"
     environment:
       - ETH0_IP=${ETH0_IP}
+    env_file:
+      - .env

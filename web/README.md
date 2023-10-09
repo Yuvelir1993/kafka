@@ -16,7 +16,7 @@ You may also see any lint errors in the console.
 
 Or, to run it's dockerized version:
 
-### `docker compose up --build`
+### `docker compose --env-file=.env up --build`
 
 ### `npm test`
 

@@ -2,12 +2,14 @@ version: "3.8"
 
 services:
   producer:
+    container_name: producer
     build:
       context: ./js-producer
       dockerfile: Dockerfile
     ports:
       - "8090:8090"
   consumer:
+    container_name: consumer
     build:
       context: ./js-consumer
       dockerfile: Dockerfile

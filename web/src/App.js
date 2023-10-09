@@ -3,11 +3,13 @@ import io from 'socket.io-client';
 import './App.css';
 import TextLines from './TextLines';
 
-const socket = io(`http://${process.env.ETH0_IP}:8080`);
+// TODO: use this below, but currently is undefined
+// const socket = io(`http://${process.env.ETH0_IP}:8080`);
+const socket = io(`http://172.29.17.18:8080`);
 
 function App() {
   const [messages, setMessages] = useState([]);
-
+  console.log(process.env);
   useEffect(() => {
     socket.on('message', (data) => {
       console.log('Received data from Kafka consumer: ', data);
