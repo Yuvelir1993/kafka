@@ -6,15 +6,7 @@ app.use(express.json());
 const { Kafka } = require('kafkajs');
 const kafka = new Kafka({
     clientId: 'js-producer',
-    brokers: ['172.29.17.18:9094'],
-    ssl: {
-        rejectUnauthorized: true
-    },
-    sasl: {
-        mechanism: 'scram-sha-256',
-        username: 'kafka_user',
-        password: 'Password123++',
-    },
+    brokers: ['172.29.17.18:9094']
 });
 
 /**

@@ -8,11 +8,6 @@ Learning Kafka and related to it stuff.
 [Apache Kafka packaged by Bitnami (Dockerhub)](https://hub.docker.com/r/bitnami/kafka)
 [Apache Kafka broker config](https://docs.confluent.io/platform/current/installation/configuration/broker-configs.html)
 
-### Security
-[Simple guide to enable SASL authentication between kafka broker and client](https://github.com/wurstmeister/kafka-docker/issues/532)
-[production example from kafkajs](https://github.com/tulios/kafkajs/tree/master)
-[bitnami gti issue with kafka configs examples](https://github.com/bitnami/containers/issues/41415)
-
 ### UI projects
 [provectus](https://docs.kafka-ui.provectus.io)
 [confluent control center](https://hub.docker.com/r/confluentinc/cp-enterprise-control-center)
@@ -30,27 +25,17 @@ sudo sysctl -w vm.max_map_count=362144
 ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1
 ```
 
-## Generate certificates
+## Run docker Kafka
 ```bash
-# Execute if Java is not installed
-sudo apt install openjdk-17-jre-headless
-
-# Generate certificates for kafka and all clients
-sh generate-certs.sh
+docker compose up
 ```
 
-## Run docker services
+## Run docker clients
 ```bash
-docker compose up --build
+docker compose -f docker-compose-clients.yml up --build
 ```
 
-## Kafka
-All kafka '*.sh' scripts are palced in /opt/bitnami/kafka/bin/
-### Get topics list
+## Post message endpoint
 ```bash
-docker exec -it kafka /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server=localhost:9092 --list
-```
-### Get topic details
-```bash
-docker exec -it kafka /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server=localhost:9092 --describe --topic test-topic
+http://localhost:8090/post-message
 ```
