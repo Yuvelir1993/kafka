@@ -15,14 +15,16 @@ function App() {
   });
   console.log(process.env);
   useEffect(() => {
-    socket.on('message', (data) => {
+    const handleSocketMessage = (data) => {
       console.log('Received data from Kafka consumer: ', data);
       setMessages((prevMessages) => {
         const newMessages = [...prevMessages, data.value];
         localStorage.setItem(STORAGE_KEY, JSON.stringify(newMessages));
         return newMessages;
       });
-    });
+    };
+
+    socket.on('message', handleSocketMessage);
   }, []);
 
   return (
