@@ -1,4 +1,5 @@
 import React from 'react';
+import './TextLines.css';
 
 const TextLines = ({ messages }) => {
     return (

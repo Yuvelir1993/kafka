@@ -6,7 +6,7 @@ app.use(express.json());
 const { Kafka } = require('kafkajs');
 const kafka = new Kafka({
     clientId: 'js-producer',
-    brokers: ['172.29.17.18:9094']
+    brokers: [`${process.env.ETH0_IP}:9094`]
 });
 
 /**

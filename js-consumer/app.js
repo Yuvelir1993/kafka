@@ -2,11 +2,12 @@ const { createServer } = require('http');
 const { Kafka } = require('kafkajs');
 const kafka = new Kafka({
     clientId: 'js-consumer',
-    brokers: ['172.29.17.18:9094']
+    brokers: [`${process.env.ETH0_IP}:9094`]
 });
 const httpServer = createServer();
 const io = require('socket.io')(httpServer, {
     cors: {
+        // address of the UI app to avoid CORS problem. Not having it will block the websocket connection.
         origin: 'http://localhost:3000',
         methods: ['GET', 'POST'],
     },
