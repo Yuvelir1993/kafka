@@ -5,7 +5,12 @@ const kafka = new Kafka({
     brokers: ['172.29.17.18:9094']
 });
 const httpServer = createServer();
-const io = require('socket.io')(httpServer);
+const io = require('socket.io')(httpServer, {
+    cors: {
+        origin: 'http://localhost:3000',
+        methods: ['GET', 'POST'],
+    },
+});
 
 io.on("connection", (socket) => {
     console.log('WebSocket client connected');
