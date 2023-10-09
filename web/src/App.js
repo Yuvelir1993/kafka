@@ -1,23 +1,19 @@
-import logo from './logo.svg';
 import './App.css';
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:8080');
 
 function App() {
+  useEffect(() => {
+    socket.on('message', (data) => {
+      // Handle incoming data from Kafka consumer here
+      console.log('Received data from Kafka consumer:', data);
+    });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* Your React UI */}
     </div>
   );
 }
